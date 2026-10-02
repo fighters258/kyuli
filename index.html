@@ -2,154 +2,1429 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Kyuli 行事曆</title>
+
 <style>
 :root{
-  --bg:#f5f9ff; --card:#fff; --line:#dce8f7; --text:#183153; --muted:#718096;
-  --a:#ef476f; --b:#3182ce; --c:#43a047; --d:#e5a900;
+  --bg:#f5f9ff;
+  --card:#fff;
+  --line:#dce8f7;
+  --text:#183153;
+  --muted:#718096;
+  --a:#ef476f;
+  --b:#3182ce;
+  --c:#43a047;
+  --d:#e5a900;
 }
+
 *{box-sizing:border-box}
-body{margin:0;font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;background:var(--bg);color:var(--text)}
-header{background:linear-gradient(135deg,#eaf4ff,#fff);border-bottom:1px solid var(--line);padding:22px 4%;display:flex;justify-content:space-between;align-items:center;gap:20px}
-.brand{display:flex;align-items:center;gap:15px}.logo{font-size:42px}.brand h1{margin:0;font-size:28px}.brand p{margin:4px 0 0;color:var(--muted)}
-.repo{text-align:right;font-size:14px}.repo a{color:#2457a6;text-decoration:none;font-weight:700}.repo small{display:block;color:var(--muted);margin-top:5px}
-main{max-width:1280px;margin:24px auto;padding:0 18px}
-.layout{display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:16px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 4px 18px rgba(37,76,120,.05)}
-.calendar-card{padding:16px}
-.toolbar{display:flex;align-items:center;gap:10px;margin-bottom:14px}.toolbar button,.toolbar select,.action{height:44px;border:1px solid #cddced;background:#fff;border-radius:8px;padding:0 14px;color:var(--text);font-size:16px;cursor:pointer}.toolbar button:hover,.toolbar select:hover{background:#f2f7fd}
-.toolbar .nav{font-size:25px;width:48px;padding:0}.toolbar .today{margin-left:auto;background:#3182ce;color:#fff;border-color:#3182ce}
-.week,.grid{display:grid;grid-template-columns:repeat(7,1fr)}
-.week div{text-align:center;padding:12px 4px;border:1px solid var(--line);border-bottom:0;font-weight:700}.week div:first-child{color:#e53935}.week div:last-child{color:#1976d2}
-.day{min-height:108px;border:1px solid var(--line);margin:-1px 0 0 -1px;padding:9px;cursor:pointer;position:relative;background:#fff}.day:hover{background:#f7fbff}.day.other{color:#b5c0cc;background:#fafcff}.num{font-weight:700}.day.today{box-shadow:inset 0 0 0 2px #3182ce}.badge{display:inline-flex;margin-top:22px;padding:5px 12px;border-radius:8px;color:#fff;font-weight:800;font-size:14px}.A{background:var(--a)}.B{background:var(--b)}.C{background:var(--c)}.D{background:var(--d)}
-.side{padding:18px}.side h2{font-size:18px;margin:0 0 12px}.selected{font-size:20px;font-weight:700;background:#f6f9fd;border:1px solid var(--line);padding:10px;border-radius:8px;margin-bottom:14px}
-.pick{width:100%;height:43px;margin:5px 0;border-radius:8px;border:1px solid;font-weight:700;font-size:16px;cursor:pointer}.pick.A{border-color:#ef476f;background:#fff0f3;color:#d92854}.pick.B{border-color:#3182ce;background:#eef6ff;color:#2169aa}.pick.C{border-color:#43a047;background:#eef9ef;color:#318038}.pick.D{border-color:#e5a900;background:#fff8df;color:#9a7300}.clear{width:100%;height:43px;margin-top:6px;border:1px solid #cdd7e4;background:#fff;border-radius:8px;cursor:pointer;font-size:16px}
-.note{font-size:13px;color:var(--muted);line-height:1.6;margin:16px 0;border-bottom:1px solid var(--line);padding-bottom:16px}
-.legend div{display:flex;align-items:center;gap:10px;margin:10px 0}.dot{width:30px;height:26px;border-radius:7px;color:#fff;text-align:center;padding-top:3px;font-weight:800}
-.bottom{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.bottom .card{padding:18px}.bottom h2{font-size:18px;margin:0 0 12px}.list{width:100%;border-collapse:collapse}.list td{padding:7px;border-bottom:1px solid #edf2f7}.stat{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stat div{padding:12px;border-radius:8px;background:#f7faff}.stat b{display:block;font-size:22px}.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:15px}.action{font-size:14px;height:40px}.status{margin-top:12px;padding:10px;border-radius:8px;background:#eef6ff;color:#285b8f;font-size:14px}
-@media(max-width:850px){.layout{grid-template-columns:1fr}.bottom{grid-template-columns:1fr}.day{min-height:82px}.badge{margin-top:12px;padding:4px 8px}.repo{display:none}}
+
+body{
+  margin:0;
+  font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
+  background:var(--bg);
+  color:var(--text);
+}
+
+header{
+  background:linear-gradient(135deg,#eaf4ff,#fff);
+  border-bottom:1px solid var(--line);
+  padding:22px 4%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:20px;
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:15px
+}
+
+.logo{font-size:42px}
+
+.brand h1{
+  margin:0;
+  font-size:28px
+}
+
+.brand p{
+  margin:4px 0 0;
+  color:var(--muted)
+}
+
+.repo{
+  text-align:right;
+  font-size:14px
+}
+
+.repo a{
+  color:#2457a6;
+  text-decoration:none;
+  font-weight:700
+}
+
+.repo small{
+  display:block;
+  color:var(--muted);
+  margin-top:5px
+}
+
+main{
+  max-width:1280px;
+  margin:24px auto;
+  padding:0 18px
+}
+
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:12px;
+  box-shadow:0 4px 18px rgba(37,76,120,.05)
+}
+
+.calendar-card{
+  padding:16px
+}
+
+.toolbar{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px
+}
+
+.toolbar button,
+.toolbar select{
+  height:44px;
+  border:1px solid #cddced;
+  background:#fff;
+  border-radius:8px;
+  padding:0 14px;
+  color:var(--text);
+  font-size:16px;
+  cursor:pointer
+}
+
+.toolbar button:hover,
+.toolbar select:hover{
+  background:#f2f7fd
+}
+
+.toolbar .nav{
+  font-size:25px;
+  width:48px;
+  padding:0
+}
+
+.toolbar .today{
+  margin-left:auto;
+  background:#3182ce;
+  color:#fff;
+  border-color:#3182ce
+}
+
+.week,
+.grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr)
+}
+
+.week div{
+  text-align:center;
+  padding:12px 4px;
+  border:1px solid var(--line);
+  border-bottom:0;
+  font-weight:700
+}
+
+.week div:first-child{color:#e53935}
+.week div:last-child{color:#1976d2}
+
+.day{
+  min-height:120px;
+  border:1px solid var(--line);
+  margin:-1px 0 0 -1px;
+  padding:9px;
+  cursor:pointer;
+  position:relative;
+  background:#fff;
+  transition:.15s
+}
+
+.day:hover{
+  background:#f7fbff;
+  transform:translateY(-1px);
+  z-index:2
+}
+
+.day.other{
+  color:#b5c0cc;
+  background:#fafcff
+}
+
+.day.today{
+  box-shadow:inset 0 0 0 3px #3182ce;
+  background:#f4f9ff
+}
+
+.day.selected{
+  box-shadow:inset 0 0 0 3px #7c3aed
+}
+
+.num{
+  font-size:17px;
+  font-weight:800
+}
+
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-top:16px
+}
+
+.badge{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:30px;
+  height:27px;
+  padding:0 8px;
+  border-radius:7px;
+  color:#fff;
+  font-weight:800;
+  font-size:13px
+}
+
+.A{background:var(--a)}
+.B{background:var(--b)}
+.C{background:var(--c)}
+.D{background:var(--d)}
+
+.bottom{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:16px;
+  margin-top:16px
+}
+
+.bottom .card{
+  padding:18px
+}
+
+.bottom h2{
+  font-size:18px;
+  margin:0 0 12px
+}
+
+.list{
+  width:100%;
+  border-collapse:collapse
+}
+
+.list td{
+  padding:7px;
+  border-bottom:1px solid #edf2f7
+}
+
+.stat{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px
+}
+
+.stat div{
+  padding:12px;
+  border-radius:8px;
+  background:#f7faff
+}
+
+.stat b{
+  display:block;
+  font-size:22px
+}
+
+.actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+  margin-top:15px
+}
+
+.action{
+  height:40px;
+  border:1px solid #cddced;
+  background:#fff;
+  border-radius:8px;
+  padding:0 13px;
+  cursor:pointer;
+  color:var(--text)
+}
+
+.status{
+  margin-top:12px;
+  padding:10px;
+  border-radius:8px;
+  background:#eef6ff;
+  color:#285b8f;
+  font-size:14px
+}
+
+/* Modal */
+
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(15,32,55,.45);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+  z-index:1000
+}
+
+.modal.show{
+  display:flex
+}
+
+.modal-box{
+  width:min(430px,100%);
+  background:#fff;
+  border-radius:16px;
+  padding:22px;
+  box-shadow:0 20px 60px rgba(0,0,0,.2)
+}
+
+.modal-title{
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:6px
+}
+
+.modal-sub{
+  color:var(--muted);
+  margin-bottom:20px
+}
+
+.shift-list{
+  display:grid;
+  gap:10px
+}
+
+.shift{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  padding:14px;
+  border:2px solid #e3eaf3;
+  border-radius:10px;
+  cursor:pointer;
+  transition:.15s
+}
+
+.shift:hover{
+  background:#f7fbff
+}
+
+.shift input{
+  width:21px;
+  height:21px
+}
+
+.shift strong{
+  font-size:18px
+}
+
+.shift.A.checked{
+  border-color:var(--a);
+  background:#fff0f3
+}
+
+.shift.B.checked{
+  border-color:var(--b);
+  background:#eef6ff
+}
+
+.shift.C.checked{
+  border-color:var(--c);
+  background:#eef9ef
+}
+
+.shift.D.checked{
+  border-color:var(--d);
+  background:#fff8df
+}
+
+.modal-actions{
+  display:flex;
+  gap:10px;
+  margin-top:20px
+}
+
+.modal-actions button{
+  flex:1;
+  height:45px;
+  border-radius:9px;
+  border:1px solid #ccd8e7;
+  background:#fff;
+  cursor:pointer;
+  font-size:16px
+}
+
+.modal-actions .save{
+  background:#3182ce;
+  border-color:#3182ce;
+  color:#fff;
+  font-weight:700
+}
+
+.modal-actions .danger{
+  color:#c53030
+}
+
+.loading{
+  opacity:.6;
+  pointer-events:none
+}
+
+@media(max-width:850px){
+
+  header{
+    padding:16px
+  }
+
+  .brand h1{
+    font-size:22px
+  }
+
+  .brand p{
+    font-size:13px
+  }
+
+  .repo{
+    display:none
+  }
+
+  main{
+    padding:0 8px;
+    margin:12px auto
+  }
+
+  .calendar-card{
+    padding:8px
+  }
+
+  .toolbar{
+    flex-wrap:wrap
+  }
+
+  .toolbar .today{
+    margin-left:0
+  }
+
+  .day{
+    min-height:82px;
+    padding:6px
+  }
+
+  .num{
+    font-size:14px
+  }
+
+  .badges{
+    margin-top:8px;
+    gap:3px
+  }
+
+  .badge{
+    min-width:24px;
+    height:23px;
+    padding:0 5px;
+    font-size:11px
+  }
+
+  .week div{
+    padding:8px 2px;
+    font-size:13px
+  }
+
+  .bottom{
+    grid-template-columns:1fr
+  }
+
+  .stat{
+    grid-template-columns:repeat(2,1fr)
+  }
+}
 </style>
 </head>
+
 <body>
+
 <header>
-  <div class="brand"><div class="logo">🗓️</div><div><h1>Kyuli 行事曆</h1><p>輕鬆管理 A / B / C / D 排班，並同步 schedule.txt</p></div></div>
-  <div class="repo"><a href="https://github.com/fighters258/kyuli" target="_blank">GitHub Repository ↗</a><small>fighters258 / kyuli</small></div>
+  <div class="brand">
+    <div class="logo">🗓️</div>
+    <div>
+      <h1>Kyuli 行事曆</h1>
+      <p>管理 A / B / C / D 排班，並同步 GitHub schedule.txt</p>
+    </div>
+  </div>
+
+  <div class="repo">
+    <a href="https://github.com/fighters258/kyuli" target="_blank">
+      GitHub Repository ↗
+    </a>
+    <small>fighters258 / kyuli</small>
+  </div>
 </header>
 
 <main>
-  <div class="layout">
-    <section class="card calendar-card">
-      <div class="toolbar">
-        <button class="nav" id="prev">‹</button>
-        <button class="nav" id="next">›</button>
-        <select id="year"></select>
-        <select id="month"></select>
-        <button class="today" id="today">📅 今天</button>
-      </div>
-      <div class="week"><div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div></div>
-      <div class="grid" id="grid"></div>
-    </section>
 
-    <aside class="card side">
-      <h2>選擇日期</h2>
-      <div class="selected" id="selected">—</div>
-      <h2>設定排班</h2>
-      <button class="pick A" data-type="A">A</button>
-      <button class="pick B" data-type="B">B</button>
-      <button class="pick C" data-type="C">C</button>
-      <button class="pick D" data-type="D">D</button>
-      <button class="clear" id="clear">🗑 清除</button>
-      <div class="note">※ 點日期後選擇排班。資料會先保存在本頁；按「下載 schedule.txt」後，再把檔案更新到 GitHub。</div>
-      <h2>顏色說明</h2>
-      <div class="legend"><div><span class="dot A">A</span> A 組</div><div><span class="dot B">B</span> B 組</div><div><span class="dot C">C</span> C 組</div><div><span class="dot D">D</span> D 組</div></div>
-    </aside>
-  </div>
+  <section class="card calendar-card">
+
+    <div class="toolbar">
+      <button class="nav" id="prev">‹</button>
+      <button class="nav" id="next">›</button>
+
+      <select id="year"></select>
+      <select id="month"></select>
+
+      <button class="today" id="today">
+        📅 今天
+      </button>
+    </div>
+
+    <div class="week">
+      <div>日</div>
+      <div>一</div>
+      <div>二</div>
+      <div>三</div>
+      <div>四</div>
+      <div>五</div>
+      <div>六</div>
+    </div>
+
+    <div class="grid" id="grid"></div>
+
+  </section>
 
   <div class="bottom">
-    <section class="card"><h2>本月排班列表 <span id="monthTitle"></span></h2><table class="list"><tbody id="list"></tbody></table></section>
-    <section class="card"><h2>目前設定</h2><div class="status" id="status">正在讀取 GitHub 的 schedule.txt…</div><h2 style="margin-top:18px">排班統計</h2><div class="stat"><div><b id="countA">0</b>A</div><div><b id="countB">0</b>B</div><div><b id="countC">0</b>C</div><div><b id="countD">0</b>D</div></div><div class="actions"><button class="action" id="download">⬇ 下載 schedule.txt</button><button class="action" id="copy">📋 複製資料</button><a class="action" href="https://github.com/fighters258/kyuli/edit/main/schedule.txt" target="_blank" style="text-decoration:none;display:inline-flex;align-items:center">✏️ 開啟 GitHub 編輯</a></div></section>
+
+    <section class="card">
+
+      <h2>
+        本月排班列表
+        <span id="monthTitle"></span>
+      </h2>
+
+      <table class="list">
+        <tbody id="list"></tbody>
+      </table>
+
+    </section>
+
+    <section class="card">
+
+      <h2>目前設定</h2>
+
+      <div class="status" id="status">
+        正在讀取 GitHub 的 schedule.txt…
+      </div>
+
+      <h2 style="margin-top:18px">
+        排班統計
+      </h2>
+
+      <div class="stat">
+        <div>
+          <b id="countA">0</b>A
+        </div>
+        <div>
+          <b id="countB">0</b>B
+        </div>
+        <div>
+          <b id="countC">0</b>C
+        </div>
+        <div>
+          <b id="countD">0</b>D
+        </div>
+      </div>
+
+      <div class="actions">
+
+        <button class="action" id="download">
+          ⬇ 下載 schedule.txt
+        </button>
+
+        <button class="action" id="copy">
+          📋 複製資料
+        </button>
+
+      </div>
+
+    </section>
+
   </div>
+
 </main>
 
-<script>
-const RAW='https://raw.githubusercontent.com/fighters258/kyuli/main/schedule.txt';
-const REPO_EDIT='https://github.com/fighters258/kyuli/edit/main/schedule.txt';
-let data={A:new Set(),B:new Set(),C:new Set(),D:new Set()};
-let selected=null, view=new Date(); view.setDate(1);
-const today=new Date(); today.setHours(0,0,0,0);
+<!-- 編輯日期 Modal -->
 
-function key(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
-function fmtKey(k){let [y,m,d]=k.split('-'); return `${y}/${m}/${d}`}
+<div class="modal" id="modal">
+
+  <div class="modal-box">
+
+    <div class="modal-title" id="modalTitle">
+      編輯排班
+    </div>
+
+    <div class="modal-sub">
+      可同時選擇 A、B、C、D
+    </div>
+
+    <div class="shift-list">
+
+      <label class="shift A" data-shift="A">
+        <input type="checkbox" value="A">
+        <strong>A 班</strong>
+      </label>
+
+      <label class="shift B" data-shift="B">
+        <input type="checkbox" value="B">
+        <strong>B 班</strong>
+      </label>
+
+      <label class="shift C" data-shift="C">
+        <input type="checkbox" value="C">
+        <strong>C 班</strong>
+      </label>
+
+      <label class="shift D" data-shift="D">
+        <input type="checkbox" value="D">
+        <strong>D 班</strong>
+      </label>
+
+    </div>
+
+    <div class="modal-actions">
+
+      <button class="danger" id="clearDay">
+        清除全部
+      </button>
+
+      <button id="cancel">
+        取消
+      </button>
+
+      <button class="save" id="save">
+        💾 儲存
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+const RAW =
+  'https://raw.githubusercontent.com/fighters258/kyuli/main/schedule.txt';
+
+/*
+ * 之後 GitHub Actions / API 完成後，
+ * 將這裡改成你的 API 網址。
+ */
+const SAVE_API = '';
+
+let data = {
+  A:new Set(),
+  B:new Set(),
+  C:new Set(),
+  D:new Set()
+};
+
+let selected = null;
+
+let view = new Date();
+view.setDate(1);
+
+const today = new Date();
+today.setHours(0,0,0,0);
+
+const grid =
+  document.getElementById('grid');
+
+const year =
+  document.getElementById('year');
+
+const month =
+  document.getElementById('month');
+
+const monthTitle =
+  document.getElementById('monthTitle');
+
+const list =
+  document.getElementById('list');
+
+const status =
+  document.getElementById('status');
+
+const modal =
+  document.getElementById('modal');
+
+const modalTitle =
+  document.getElementById('modalTitle');
+
+const saveButton =
+  document.getElementById('save');
+
+function key(y,m,d){
+
+  return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+
+}
+
+function fmtKey(k){
+
+  const [y,m,d] = k.split('-');
+
+  return `${y}/${m}/${d}`;
+
+}
+
+/*
+ * 讀取 schedule.txt
+ *
+ * 支援：
+ *
+ * A,10/2,10/3
+ * B,10/2
+ *
+ * 以及：
+ *
+ * A,2026/10/2
+ */
+
 function parseSchedule(text){
-  data={A:new Set(),B:new Set(),C:new Set(),D:new Set()};
-  text.replace(/\r/g,'').split('\n').forEach(line=>{
-    let p=line.split(',').map(x=>x.trim()); if(!p[0]) return;
-    let g=p[0].toUpperCase(); if(!data[g]) return;
-    p.slice(1).forEach(v=>{
-      if(!v) return;
-      let mmdd=v.match(/^(\d{1,2})[\/\-](\d{1,2})$/);
-      if(mmdd){
-        let y=view.getFullYear(), m=+mmdd[1], d=+mmdd[2];
-        data[g].add(key(y,m-1,d));
-      } else if(/^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/.test(v)){
-        let q=v.split(/[\/\-]/); data[g].add(key(+q[0],+q[1]-1,+q[2]));
-      }
+
+  data = {
+    A:new Set(),
+    B:new Set(),
+    C:new Set(),
+    D:new Set()
+  };
+
+  text
+    .replace(/\r/g,'')
+    .split('\n')
+    .forEach(line=>{
+
+      const p =
+        line.split(',').map(x=>x.trim());
+
+      if(!p[0]) return;
+
+      const g =
+        p[0].toUpperCase();
+
+      if(!data[g]) return;
+
+      p.slice(1).forEach(v=>{
+
+        if(!v) return;
+
+        let mmdd =
+          v.match(/^(\d{1,2})[\/\-](\d{1,2})$/);
+
+        if(mmdd){
+
+          /*
+           * 舊格式沒有年份，
+           * 暫時使用目前檢視年份。
+           */
+          const y =
+            view.getFullYear();
+
+          const m =
+            Number(mmdd[1]);
+
+          const d =
+            Number(mmdd[2]);
+
+          data[g].add(
+            key(y,m-1,d)
+          );
+
+          return;
+        }
+
+        if(
+          /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/
+          .test(v)
+        ){
+
+          const q =
+            v.split(/[\/\-]/);
+
+          data[g].add(
+            key(
+              Number(q[0]),
+              Number(q[1])-1,
+              Number(q[2])
+            )
+          );
+
+        }
+
+      });
+
     });
-  });
+
 }
+
+/*
+ * 輸出 schedule.txt
+ *
+ * 同一天可以存在多個班別。
+ */
+
 function serialize(){
-  let out=[];
+
+  const out = [];
+
   ['A','B','C','D'].forEach(g=>{
-    let arr=[...data[g]].sort().map(k=>{let q=k.split('-');return `${+q[1]}/${+q[2]}`});
-    out.push(g+(arr.length?','+arr.join(','):''));
+
+    const arr =
+      [...data[g]]
+      .sort()
+      .map(k=>{
+
+        const q = k.split('-');
+
+        return `${Number(q[1])}/${Number(q[2])}`;
+
+      });
+
+    out.push(
+      g + (arr.length ? ',' + arr.join(',') : '')
+    );
+
   });
-  return out.join('\n')+'\n';
+
+  return out.join('\n') + '\n';
+
 }
+
 function renderSelectors(){
-  year.innerHTML=''; month.innerHTML='';
-  for(let y=today.getFullYear()-3;y<=today.getFullYear()+5;y++){let o=new Option(y+' 年',y);if(y===view.getFullYear())o.selected=true;year.add(o)}
-  for(let m=0;m<12;m++){let o=new Option((m+1)+' 月',m);if(m===view.getMonth())o.selected=true;month.add(o)}
+
+  year.innerHTML = '';
+  month.innerHTML = '';
+
+  for(
+    let y=today.getFullYear()-3;
+    y<=today.getFullYear()+5;
+    y++
+  ){
+
+    const o =
+      new Option(`${y} 年`,y);
+
+    if(y===view.getFullYear())
+      o.selected=true;
+
+    year.add(o);
+
+  }
+
+  for(let m=0;m<12;m++){
+
+    const o =
+      new Option(`${m+1} 月`,m);
+
+    if(m===view.getMonth())
+      o.selected=true;
+
+    month.add(o);
+
+  }
+
 }
-function render(){
-  renderSelectors();
-  grid.innerHTML='';
-  let y=view.getFullYear(), m=view.getMonth(), first=new Date(y,m,1).getDay(), days=new Date(y,m+1,0).getDate();
-  for(let i=0;i<first;i++){let d=new Date(y,m,i-first+1); grid.appendChild(dayCell(d,true))}
-  for(let d=1;d<=days;d++) grid.appendChild(dayCell(new Date(y,m,d),false));
-  while(grid.children.length<42){let n=grid.children.length-first-days+1;grid.appendChild(dayCell(new Date(y,m+1,n),true))}
-  monthTitle.textContent=`（${y} 年 ${m+1} 月）`;
-  renderList();
-}
+
 function dayCell(dt,other){
-  let el=document.createElement('div'); el.className='day'+(other?' other':'');
-  let k=key(dt.getFullYear(),dt.getMonth(),dt.getDate());
-  if(dt.getTime()===today.getTime()) el.classList.add('today');
-  el.innerHTML='<div class="num">'+dt.getDate()+'</div>';
-  ['A','B','C','D'].forEach(g=>{if(data[g].has(k)){let b=document.createElement('span');b.className='badge '+g;b.textContent=g;el.appendChild(b)}});
-  el.onclick=()=>{selected=k; selectedEl.textContent=fmtKey(k);};
+
+  const el =
+    document.createElement('div');
+
+  el.className =
+    'day' + (other ? ' other' : '');
+
+  const k =
+    key(
+      dt.getFullYear(),
+      dt.getMonth(),
+      dt.getDate()
+    );
+
+  if(
+    dt.getTime() === today.getTime()
+  ){
+
+    el.classList.add('today');
+
+  }
+
+  if(k===selected)
+    el.classList.add('selected');
+
+  el.innerHTML =
+    `<div class="num">${dt.getDate()}</div>
+     <div class="badges"></div>`;
+
+  const badges =
+    el.querySelector('.badges');
+
+  ['A','B','C','D'].forEach(g=>{
+
+    if(data[g].has(k)){
+
+      const b =
+        document.createElement('span');
+
+      b.className =
+        `badge ${g}`;
+
+      b.textContent = g;
+
+      badges.appendChild(b);
+
+    }
+
+  });
+
+  el.onclick = ()=>{
+
+    selected = k;
+
+    openEditor(k);
+
+  };
+
   return el;
+
 }
+
+function render(){
+
+  renderSelectors();
+
+  grid.innerHTML = '';
+
+  const y =
+    view.getFullYear();
+
+  const m =
+    view.getMonth();
+
+  const first =
+    new Date(y,m,1).getDay();
+
+  const days =
+    new Date(y,m+1,0).getDate();
+
+  for(let i=0;i<first;i++){
+
+    const d =
+      new Date(y,m,i-first+1);
+
+    grid.appendChild(
+      dayCell(d,true)
+    );
+
+  }
+
+  for(let d=1;d<=days;d++){
+
+    grid.appendChild(
+      dayCell(
+        new Date(y,m,d),
+        false
+      )
+    );
+
+  }
+
+  while(grid.children.length<42){
+
+    const n =
+      grid.children.length-first-days+1;
+
+    grid.appendChild(
+      dayCell(
+        new Date(y,m+1,n),
+        true
+      )
+    );
+
+  }
+
+  monthTitle.textContent =
+    `（${y} 年 ${m+1} 月）`;
+
+  renderList();
+
+}
+
 function renderList(){
-  let y=view.getFullYear(),m=view.getMonth(), rows=[];
-  ['A','B','C','D'].forEach(g=>[...data[g]].forEach(k=>{let q=k.split('-');if(+q[0]===y&&+q[1]===m+1)rows.push([k,g])}));
-  rows.sort((a,b)=>a[0].localeCompare(b[0]));
-  list.innerHTML=rows.length?rows.map(r=>`<tr><td>${fmtKey(r[0])}</td><td><span class="badge ${r[1]}" style="margin:0">${r[1]}</span></td></tr>`).join(''):'<tr><td>本月尚無排班</td></tr>';
-  ['A','B','C','D'].forEach(g=>document.getElementById('count'+g).textContent=[...data[g]].filter(k=>k.startsWith(`${y}-${String(m+1).padStart(2,'0')}-`)).length);
+
+  const y =
+    view.getFullYear();
+
+  const m =
+    view.getMonth();
+
+  const rows = [];
+
+  ['A','B','C','D'].forEach(g=>{
+
+    [...data[g]].forEach(k=>{
+
+      const q =
+        k.split('-');
+
+      if(
+        Number(q[0])===y &&
+        Number(q[1])===m+1
+      ){
+
+        rows.push([
+          k,
+          g
+        ]);
+
+      }
+
+    });
+
+  });
+
+  rows.sort(
+    (a,b)=>
+      a[0].localeCompare(b[0])
+  );
+
+  list.innerHTML =
+    rows.length
+    ?
+    rows.map(r=>`
+
+      <tr>
+        <td>${fmtKey(r[0])}</td>
+        <td>
+          <span class="badge ${r[1]}"
+                style="margin:0">
+            ${r[1]}
+          </span>
+        </td>
+      </tr>
+
+    `).join('')
+    :
+    `
+      <tr>
+        <td>本月尚無排班</td>
+      </tr>
+    `;
+
+  ['A','B','C','D'].forEach(g=>{
+
+    document
+      .getElementById('count'+g)
+      .textContent =
+      [...data[g]]
+      .filter(
+        k=>k.startsWith(
+          `${y}-${String(m+1).padStart(2,'0')}-`
+        )
+      )
+      .length;
+
+  });
+
 }
+
+/*
+ * 開啟日期編輯器
+ */
+
+function openEditor(k){
+
+  modalTitle.textContent =
+    `${fmtKey(k)} 排班`;
+
+  document
+    .querySelectorAll('.shift')
+    .forEach(label=>{
+
+      const g =
+        label.dataset.shift;
+
+      const checkbox =
+        label.querySelector('input');
+
+      const checked =
+        data[g].has(k);
+
+      checkbox.checked =
+        checked;
+
+      label.classList.toggle(
+        'checked',
+        checked
+      );
+
+    });
+
+  modal.classList.add('show');
+
+}
+
+/*
+ * checkbox 顏色
+ */
+
+document
+  .querySelectorAll('.shift input')
+  .forEach(input=>{
+
+    input.addEventListener(
+      'change',
+      ()=>{
+
+        const label =
+          input.closest('.shift');
+
+        label.classList.toggle(
+          'checked',
+          input.checked
+        );
+
+      }
+    );
+
+  });
+
+/*
+ * 清除當天全部班別
+ */
+
+document
+  .getElementById('clearDay')
+  .onclick = ()=>{
+
+    if(!selected) return;
+
+    ['A','B','C','D']
+      .forEach(g=>{
+        data[g].delete(selected);
+      });
+
+    closeModal();
+
+    render();
+
+  };
+
+/*
+ * 關閉
+ */
+
+function closeModal(){
+
+  modal.classList.remove('show');
+
+}
+
+/*
+ * 儲存
+ */
+
+saveButton.onclick = async ()=>{
+
+  if(!selected) return;
+
+  const changes = {};
+
+  document
+    .querySelectorAll('.shift input')
+    .forEach(input=>{
+
+      changes[input.value] =
+        input.checked;
+
+    });
+
+  /*
+   * 先更新畫面資料
+   */
+
+  ['A','B','C','D']
+    .forEach(g=>{
+
+      if(changes[g])
+        data[g].add(selected);
+      else
+        data[g].delete(selected);
+
+    });
+
+  closeModal();
+
+  render();
+
+  /*
+   * 尚未設定 API 時，
+   * 先提醒使用者。
+   */
+
+  if(!SAVE_API){
+
+    status.textContent =
+      '已修改本頁資料；GitHub API 尚未設定，因此尚未寫入 schedule.txt。';
+
+    return;
+
+  }
+
+  try{
+
+    saveButton.disabled=true;
+
+    status.textContent =
+      '正在更新 GitHub schedule.txt…';
+
+    const response =
+      await fetch(
+        SAVE_API,
+        {
+          method:'POST',
+          headers:{
+            'Content-Type':'application/json'
+          },
+          body:JSON.stringify({
+            date:selected,
+            schedule:serialize()
+          })
+        }
+      );
+
+    if(!response.ok)
+      throw new Error(
+        await response.text()
+      );
+
+    status.textContent =
+      `✅ ${fmtKey(selected)} 已成功更新 GitHub schedule.txt`;
+
+  }
+  catch(error){
+
+    console.error(error);
+
+    status.textContent =
+      '❌ GitHub 更新失敗，請檢查 API 設定。';
+
+  }
+  finally{
+
+    saveButton.disabled=false;
+
+  }
+
+};
+
+/*
+ * 點背景關閉
+ */
+
+modal.onclick = e=>{
+
+  if(e.target===modal)
+    closeModal();
+
+};
+
+document
+  .getElementById('cancel')
+  .onclick = closeModal;
+
+/*
+ * 月份
+ */
+
+document
+  .getElementById('prev')
+  .onclick = ()=>{
+
+    view.setMonth(
+      view.getMonth()-1
+    );
+
+    render();
+
+  };
+
+document
+  .getElementById('next')
+  .onclick = ()=>{
+
+    view.setMonth(
+      view.getMonth()+1
+    );
+
+    render();
+
+  };
+
+document
+  .getElementById('today')
+  .onclick = ()=>{
+
+    view =
+      new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        1
+      );
+
+    selected =
+      key(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+      );
+
+    render();
+
+    openEditor(selected);
+
+  };
+
+year.onchange = ()=>{
+
+  view.setFullYear(
+    Number(year.value)
+  );
+
+  render();
+
+};
+
+month.onchange = ()=>{
+
+  view.setMonth(
+    Number(month.value)
+  );
+
+  render();
+
+};
+
+/*
+ * 下載
+ */
+
+document
+  .getElementById('download')
+  .onclick = ()=>{
+
+    const blob =
+      new Blob(
+        [serialize()],
+        {
+          type:'text/plain;charset=utf-8'
+        }
+      );
+
+    const a =
+      document.createElement('a');
+
+    a.href =
+      URL.createObjectURL(blob);
+
+    a.download =
+      'schedule.txt';
+
+    a.click();
+
+    URL.revokeObjectURL(a.href);
+
+  };
+
+/*
+ * 複製
+ */
+
+document
+  .getElementById('copy')
+  .onclick = async ()=>{
+
+    await navigator
+      .clipboard
+      .writeText(
+        serialize()
+      );
+
+    alert(
+      '已複製 schedule.txt 內容。'
+    );
+
+  };
+
+/*
+ * 讀取 GitHub
+ */
+
 async function load(){
-  try{let r=await fetch(RAW+'?t='+Date.now()); if(!r.ok)throw Error(r.status); parseSchedule(await r.text()); status.textContent='已讀取 GitHub schedule.txt。修改後可下載新的檔案。'; render();}
-  catch(e){status.textContent='無法讀取 GitHub schedule.txt，仍可直接編輯目前行事曆。'; render();}
+
+  try{
+
+    const r =
+      await fetch(
+        RAW + '?t=' + Date.now()
+      );
+
+    if(!r.ok)
+      throw Error(r.status);
+
+    parseSchedule(
+      await r.text()
+    );
+
+    status.textContent =
+      '✅ 已讀取 GitHub schedule.txt';
+
+    render();
+
+  }
+  catch(e){
+
+    status.textContent =
+      '⚠️ 無法讀取 GitHub schedule.txt，仍可編輯目前資料。';
+
+    render();
+
+  }
+
 }
-document.querySelectorAll('.pick').forEach(b=>b.onclick=()=>{if(!selected)return alert('請先點選日期。'); let g=b.dataset.type; ['A','B','C','D'].forEach(x=>data[x].delete(selected)); data[g].add(selected); render();});
-clear.onclick=()=>{if(!selected)return alert('請先點選日期。'); ['A','B','C','D'].forEach(x=>data[x].delete(selected)); render();};
-prev.onclick=()=>{view.setMonth(view.getMonth()-1);render()}; next.onclick=()=>{view.setMonth(view.getMonth()+1);render()};
-today.onclick=()=>{view=new Date(today.getFullYear(),today.getMonth(),1);selected=key(today.getFullYear(),today.getMonth(),today.getDate());selectedEl.textContent=fmtKey(selected);render()};
-year.onchange=()=>{view.setFullYear(+year.value);render()}; month.onchange=()=>{view.setMonth(+month.value);render()};
-download.onclick=()=>{let blob=new Blob([serialize()],{type:'text/plain;charset=utf-8'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='schedule.txt';a.click();URL.revokeObjectURL(a.href)};
-copy.onclick=async()=>{await navigator.clipboard.writeText(serialize());alert('已複製 schedule.txt 內容。')};
-const grid=document.getElementById('grid'),year=document.getElementById('year'),month=document.getElementById('month'),selectedEl=document.getElementById('selected'),monthTitle=document.getElementById('monthTitle'),list=document.getElementById('list'),status=document.getElementById('status');
-render();load();
+
+render();
+load();
+
 </script>
+
 </body>
 </html>
