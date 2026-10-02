@@ -605,15 +605,15 @@ main{
 
     </div>
 
-    <div class="week">
-      <div>日</div>
-      <div>一</div>
-      <div>二</div>
-      <div>三</div>
-      <div>四</div>
-      <div>五</div>
-      <div>六</div>
-    </div>
+<div class="week">
+  <div>一</div>
+  <div>二</div>
+  <div>三</div>
+  <div>四</div>
+  <div>五</div>
+  <div>六</div>
+  <div>日</div>
+</div>
 
     <div
       class="grid"
@@ -1446,12 +1446,9 @@ function render(){
   const m =
     view.getMonth();
 
-  const first =
-    new Date(
-      y,
-      m,
-      1
-    ).getDay();
+const first =
+  (new Date(y, m, 1).getDay() + 6) % 7;
+
 
   const days =
     new Date(
