@@ -2,7 +2,7 @@
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Kyuli 行事曆</title>
 
 <style>
@@ -16,15 +16,18 @@
   --b:#3182ce;
   --c:#43a047;
   --d:#e5a900;
+  --danger:#d64545;
 }
 
-*{box-sizing:border-box}
+*{
+  box-sizing:border-box
+}
 
 body{
   margin:0;
   font-family:"Noto Sans TC","Microsoft JhengHei",sans-serif;
   background:var(--bg);
-  color:var(--text);
+  color:var(--text)
 }
 
 header{
@@ -34,7 +37,7 @@ header{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:20px;
+  gap:20px
 }
 
 .brand{
@@ -43,7 +46,9 @@ header{
   gap:15px
 }
 
-.logo{font-size:42px}
+.logo{
+  font-size:42px
+}
 
 .brand h1{
   margin:0;
@@ -140,8 +145,13 @@ main{
   font-weight:700
 }
 
-.week div:first-child{color:#e53935}
-.week div:last-child{color:#1976d2}
+.week div:first-child{
+  color:#e53935
+}
+
+.week div:last-child{
+  color:#1976d2
+}
 
 .day{
   min-height:120px;
@@ -156,7 +166,6 @@ main{
 
 .day:hover{
   background:#f7fbff;
-  transform:translateY(-1px);
   z-index:2
 }
 
@@ -199,10 +208,21 @@ main{
   font-size:13px
 }
 
-.A{background:var(--a)}
-.B{background:var(--b)}
-.C{background:var(--c)}
-.D{background:var(--d)}
+.A{
+  background:var(--a)
+}
+
+.B{
+  background:var(--b)
+}
+
+.C{
+  background:var(--c)
+}
+
+.D{
+  background:var(--d)
+}
 
 .bottom{
   display:grid;
@@ -264,13 +284,28 @@ main{
   color:var(--text)
 }
 
+.action:hover{
+  background:#f2f7fd
+}
+
 .status{
   margin-top:12px;
   padding:10px;
   border-radius:8px;
   background:#eef6ff;
   color:#285b8f;
-  font-size:14px
+  font-size:14px;
+  line-height:1.5
+}
+
+.status.success{
+  background:#edf9f0;
+  color:#27733a
+}
+
+.status.error{
+  background:#fff0f0;
+  color:#b83232
 }
 
 /* Modal */
@@ -278,7 +313,7 @@ main{
 .modal{
   position:fixed;
   inset:0;
-  background:rgba(15,32,55,.45);
+  background:rgba(15,32,55,.48);
   display:none;
   align-items:center;
   justify-content:center;
@@ -291,7 +326,7 @@ main{
 }
 
 .modal-box{
-  width:min(430px,100%);
+  width:min(440px,100%);
   background:#fff;
   border-radius:16px;
   padding:22px;
@@ -301,12 +336,12 @@ main{
 .modal-title{
   font-size:22px;
   font-weight:800;
-  margin-bottom:6px
+  margin-bottom:5px
 }
 
 .modal-sub{
   color:var(--muted);
-  margin-bottom:20px
+  margin-bottom:18px
 }
 
 .shift-list{
@@ -321,17 +356,13 @@ main{
   padding:14px;
   border:2px solid #e3eaf3;
   border-radius:10px;
-  cursor:pointer;
-  transition:.15s
-}
-
-.shift:hover{
-  background:#f7fbff
+  cursor:pointer
 }
 
 .shift input{
   width:21px;
-  height:21px
+  height:21px;
+  cursor:pointer
 }
 
 .shift strong{
@@ -360,18 +391,18 @@ main{
 
 .modal-actions{
   display:flex;
-  gap:10px;
+  gap:8px;
   margin-top:20px
 }
 
 .modal-actions button{
   flex:1;
-  height:45px;
+  min-height:44px;
   border-radius:9px;
   border:1px solid #ccd8e7;
   background:#fff;
   cursor:pointer;
-  font-size:16px
+  font-size:15px
 }
 
 .modal-actions .save{
@@ -382,11 +413,42 @@ main{
 }
 
 .modal-actions .danger{
-  color:#c53030
+  color:var(--danger)
+}
+
+/* Token Modal */
+
+.token-help{
+  color:var(--muted);
+  font-size:14px;
+  line-height:1.6;
+  margin-bottom:15px
+}
+
+.token-input{
+  width:100%;
+  height:46px;
+  border:1px solid #ccd8e7;
+  border-radius:9px;
+  padding:0 12px;
+  font-size:15px;
+  outline:none
+}
+
+.token-input:focus{
+  border-color:#3182ce;
+  box-shadow:0 0 0 3px rgba(49,130,206,.12)
+}
+
+.small-note{
+  font-size:12px;
+  color:var(--muted);
+  margin-top:10px;
+  line-height:1.5
 }
 
 .loading{
-  opacity:.6;
+  opacity:.65;
   pointer-events:none
 }
 
@@ -458,6 +520,22 @@ main{
   .stat{
     grid-template-columns:repeat(2,1fr)
   }
+
+  .modal{
+    padding:12px
+  }
+
+  .modal-box{
+    padding:18px
+  }
+
+  .modal-actions{
+    flex-wrap:wrap
+  }
+
+  .modal-actions button{
+    min-width:calc(50% - 4px)
+  }
 }
 </style>
 </head>
@@ -465,20 +543,31 @@ main{
 <body>
 
 <header>
+
   <div class="brand">
     <div class="logo">🗓️</div>
+
     <div>
       <h1>Kyuli 行事曆</h1>
-      <p>管理 A / B / C / D 排班，並同步 GitHub schedule.txt</p>
+      <p>
+        管理 A / B / C / D 排班，直接同步 GitHub
+      </p>
     </div>
   </div>
 
   <div class="repo">
-    <a href="https://github.com/fighters258/kyuli" target="_blank">
+    <a
+      href="https://github.com/fighters258/kyuli"
+      target="_blank"
+    >
       GitHub Repository ↗
     </a>
-    <small>fighters258 / kyuli</small>
+
+    <small>
+      fighters258 / kyuli
+    </small>
   </div>
+
 </header>
 
 <main>
@@ -486,15 +575,34 @@ main{
   <section class="card calendar-card">
 
     <div class="toolbar">
-      <button class="nav" id="prev">‹</button>
-      <button class="nav" id="next">›</button>
+
+      <button
+        class="nav"
+        id="prev"
+        aria-label="上一個月"
+      >
+        ‹
+      </button>
+
+      <button
+        class="nav"
+        id="next"
+        aria-label="下一個月"
+      >
+        ›
+      </button>
 
       <select id="year"></select>
+
       <select id="month"></select>
 
-      <button class="today" id="today">
+      <button
+        class="today"
+        id="today"
+      >
         📅 今天
       </button>
+
     </div>
 
     <div class="week">
@@ -507,7 +615,10 @@ main{
       <div>六</div>
     </div>
 
-    <div class="grid" id="grid"></div>
+    <div
+      class="grid"
+      id="grid"
+    ></div>
 
   </section>
 
@@ -528,9 +639,12 @@ main{
 
     <section class="card">
 
-      <h2>目前設定</h2>
+      <h2>GitHub 狀態</h2>
 
-      <div class="status" id="status">
+      <div
+        class="status"
+        id="status"
+      >
         正在讀取 GitHub 的 schedule.txt…
       </div>
 
@@ -539,27 +653,49 @@ main{
       </h2>
 
       <div class="stat">
+
         <div>
-          <b id="countA">0</b>A
+          <b id="countA">0</b>
+          A
         </div>
+
         <div>
-          <b id="countB">0</b>B
+          <b id="countB">0</b>
+          B
         </div>
+
         <div>
-          <b id="countC">0</b>C
+          <b id="countC">0</b>
+          C
         </div>
+
         <div>
-          <b id="countD">0</b>D
+          <b id="countD">0</b>
+          D
         </div>
+
       </div>
 
       <div class="actions">
 
-        <button class="action" id="download">
+        <button
+          class="action"
+          id="tokenButton"
+        >
+          🔑 GitHub Token
+        </button>
+
+        <button
+          class="action"
+          id="download"
+        >
           ⬇ 下載 schedule.txt
         </button>
 
-        <button class="action" id="copy">
+        <button
+          class="action"
+          id="copy"
+        >
           📋 複製資料
         </button>
 
@@ -571,39 +707,70 @@ main{
 
 </main>
 
-<!-- 編輯日期 Modal -->
 
-<div class="modal" id="modal">
+<!-- 日期編輯 -->
+
+<div
+  class="modal"
+  id="editModal"
+>
 
   <div class="modal-box">
 
-    <div class="modal-title" id="modalTitle">
+    <div
+      class="modal-title"
+      id="modalTitle"
+    >
       編輯排班
     </div>
 
     <div class="modal-sub">
-      可同時選擇 A、B、C、D
+      同一天可以同時選擇 A、B、C、D
     </div>
 
     <div class="shift-list">
 
-      <label class="shift A" data-shift="A">
-        <input type="checkbox" value="A">
+      <label
+        class="shift A"
+        data-shift="A"
+      >
+        <input
+          type="checkbox"
+          value="A"
+        >
         <strong>A 班</strong>
       </label>
 
-      <label class="shift B" data-shift="B">
-        <input type="checkbox" value="B">
+      <label
+        class="shift B"
+        data-shift="B"
+      >
+        <input
+          type="checkbox"
+          value="B"
+        >
         <strong>B 班</strong>
       </label>
 
-      <label class="shift C" data-shift="C">
-        <input type="checkbox" value="C">
+      <label
+        class="shift C"
+        data-shift="C"
+      >
+        <input
+          type="checkbox"
+          value="C"
+        >
         <strong>C 班</strong>
       </label>
 
-      <label class="shift D" data-shift="D">
-        <input type="checkbox" value="D">
+      <label
+        class="shift D"
+        data-shift="D"
+      >
+        <input
+          type="checkbox"
+          value="D"
+        >
         <strong>D 班</strong>
       </label>
 
@@ -611,16 +778,22 @@ main{
 
     <div class="modal-actions">
 
-      <button class="danger" id="clearDay">
-        清除全部
+      <button
+        class="danger"
+        id="clearDay"
+      >
+        🗑 清除全部
       </button>
 
-      <button id="cancel">
+      <button id="cancelEdit">
         取消
       </button>
 
-      <button class="save" id="save">
-        💾 儲存
+      <button
+        class="save"
+        id="save"
+      >
+        💾 儲存到 GitHub
       </button>
 
     </div>
@@ -629,16 +802,96 @@ main{
 
 </div>
 
+
+<!-- GitHub Token -->
+
+<div
+  class="modal"
+  id="tokenModal"
+>
+
+  <div class="modal-box">
+
+    <div class="modal-title">
+      🔑 GitHub Token
+    </div>
+
+    <div class="token-help">
+
+      請輸入你的 GitHub Fine-grained
+      Personal Access Token。
+
+      <br><br>
+
+      Token 建議只授權：
+      <br>
+      <b>fighters258 / kyuli</b>
+      <br>
+      <b>Contents → Read and write</b>
+
+    </div>
+
+    <input
+      id="tokenInput"
+      class="token-input"
+      type="password"
+      placeholder="github_pat_..."
+      autocomplete="off"
+    >
+
+    <div class="small-note">
+      Token 只暫存在目前瀏覽器工作階段的 sessionStorage，
+      不會寫入 GitHub 上的 index.html。
+    </div>
+
+    <div class="modal-actions">
+
+      <button id="cancelToken">
+        取消
+      </button>
+
+      <button
+        class="danger"
+        id="clearToken"
+      >
+        清除 Token
+      </button>
+
+      <button
+        class="save"
+        id="saveToken"
+      >
+        儲存 Token
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+
 <script>
 
-const RAW =
-  'https://raw.githubusercontent.com/fighters258/kyuli/main/schedule.txt';
+/* ==========================================
+   GitHub 設定
+========================================== */
 
-/*
- * 之後 GitHub Actions / API 完成後，
- * 將這裡改成你的 API 網址。
- */
-const SAVE_API = '';
+const OWNER = 'fighters258';
+const REPO = 'kyuli';
+const BRANCH = 'main';
+const FILE = 'schedule.txt';
+
+const RAW =
+  `https://raw.githubusercontent.com/${OWNER}/${REPO}/${BRANCH}/${FILE}`;
+
+const API =
+  `https://api.github.com/repos/${OWNER}/${REPO}/contents/${FILE}`;
+
+
+/* ==========================================
+   資料
+========================================== */
 
 let data = {
   A:new Set(),
@@ -650,10 +903,17 @@ let data = {
 let selected = null;
 
 let view = new Date();
+
 view.setDate(1);
 
 const today = new Date();
+
 today.setHours(0,0,0,0);
+
+
+/* ==========================================
+   DOM
+========================================== */
 
 const grid =
   document.getElementById('grid');
@@ -673,8 +933,11 @@ const list =
 const status =
   document.getElementById('status');
 
-const modal =
-  document.getElementById('modal');
+const editModal =
+  document.getElementById('editModal');
+
+const tokenModal =
+  document.getElementById('tokenModal');
 
 const modalTitle =
   document.getElementById('modalTitle');
@@ -682,32 +945,169 @@ const modalTitle =
 const saveButton =
   document.getElementById('save');
 
+const tokenInput =
+  document.getElementById('tokenInput');
+
+
+/* ==========================================
+   日期
+========================================== */
+
 function key(y,m,d){
 
   return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
 
 }
 
+
 function fmtKey(k){
 
-  const [y,m,d] = k.split('-');
+  const [
+    y,
+    m,
+    d
+  ] = k.split('-');
 
   return `${y}/${m}/${d}`;
 
 }
 
-/*
- * 讀取 schedule.txt
- *
- * 支援：
- *
- * A,10/2,10/3
- * B,10/2
- *
- * 以及：
- *
- * A,2026/10/2
- */
+
+/* ==========================================
+   Token
+========================================== */
+
+function getToken(){
+
+  return sessionStorage.getItem(
+    'kyuli_github_token'
+  );
+
+}
+
+
+function setToken(token){
+
+  sessionStorage.setItem(
+    'kyuli_github_token',
+    token
+  );
+
+}
+
+
+function removeToken(){
+
+  sessionStorage.removeItem(
+    'kyuli_github_token'
+  );
+
+}
+
+
+/* ==========================================
+   GitHub Token Modal
+========================================== */
+
+document
+  .getElementById('tokenButton')
+  .onclick = ()=>{
+
+    tokenInput.value =
+      getToken() || '';
+
+    tokenModal.classList.add('show');
+
+    setTimeout(
+      ()=>tokenInput.focus(),
+      100
+    );
+
+  };
+
+
+document
+  .getElementById('cancelToken')
+  .onclick = ()=>{
+
+    tokenModal.classList.remove(
+      'show'
+    );
+
+  };
+
+
+document
+  .getElementById('clearToken')
+  .onclick = ()=>{
+
+    removeToken();
+
+    tokenInput.value = '';
+
+    tokenModal.classList.remove(
+      'show'
+    );
+
+    setStatus(
+      '已清除本次瀏覽工作階段的 GitHub Token。',
+      'success'
+    );
+
+  };
+
+
+document
+  .getElementById('saveToken')
+  .onclick = ()=>{
+
+    const token =
+      tokenInput.value.trim();
+
+    if(!token){
+
+      alert('請輸入 GitHub Token。');
+
+      return;
+
+    }
+
+    setToken(token);
+
+    tokenModal.classList.remove(
+      'show'
+    );
+
+    setStatus(
+      'GitHub Token 已設定，可以儲存排班。',
+      'success'
+    );
+
+  };
+
+
+/* ==========================================
+   狀態
+========================================== */
+
+function setStatus(
+  message,
+  type=''
+){
+
+  status.textContent =
+    message;
+
+  status.className =
+    'status' +
+    (type ? ' ' + type : '');
+
+}
+
+
+/* ==========================================
+   解析 schedule.txt
+========================================== */
 
 function parseSchedule(text){
 
@@ -724,100 +1124,136 @@ function parseSchedule(text){
     .forEach(line=>{
 
       const p =
-        line.split(',').map(x=>x.trim());
+        line
+          .split(',')
+          .map(x=>x.trim());
 
       if(!p[0]) return;
 
-      const g =
+      const group =
         p[0].toUpperCase();
 
-      if(!data[g]) return;
+      if(!data[group]) return;
 
-      p.slice(1).forEach(v=>{
+      p
+        .slice(1)
+        .forEach(value=>{
 
-        if(!v) return;
-
-        let mmdd =
-          v.match(/^(\d{1,2})[\/\-](\d{1,2})$/);
-
-        if(mmdd){
+          if(!value) return;
 
           /*
-           * 舊格式沒有年份，
-           * 暫時使用目前檢視年份。
+           * 例如：
+           * 10/2
+           * 10-2
            */
-          const y =
-            view.getFullYear();
 
-          const m =
-            Number(mmdd[1]);
+          const mmdd =
+            value.match(
+              /^(\d{1,2})[\/\-](\d{1,2})$/
+            );
 
-          const d =
-            Number(mmdd[2]);
+          if(mmdd){
 
-          data[g].add(
-            key(y,m-1,d)
-          );
+            const y =
+              view.getFullYear();
 
-          return;
-        }
+            const m =
+              Number(mmdd[1]);
 
-        if(
-          /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/
-          .test(v)
-        ){
+            const d =
+              Number(mmdd[2]);
 
-          const q =
-            v.split(/[\/\-]/);
+            data[group].add(
+              key(
+                y,
+                m-1,
+                d
+              )
+            );
 
-          data[g].add(
-            key(
-              Number(q[0]),
-              Number(q[1])-1,
-              Number(q[2])
-            )
-          );
+            return;
 
-        }
+          }
 
-      });
+
+          /*
+           * 例如：
+           * 2026/10/2
+           */
+
+          if(
+            /^\d{4}[\/\-]\d{1,2}[\/\-]\d{1,2}$/
+              .test(value)
+          ){
+
+            const q =
+              value.split(
+                /[\/\-]/
+              );
+
+            data[group].add(
+              key(
+                Number(q[0]),
+                Number(q[1])-1,
+                Number(q[2])
+              )
+            );
+
+          }
+
+        });
 
     });
 
 }
 
-/*
- * 輸出 schedule.txt
- *
- * 同一天可以存在多個班別。
- */
+
+/* ==========================================
+   產生 schedule.txt
+========================================== */
 
 function serialize(){
 
-  const out = [];
+  const output = [];
 
-  ['A','B','C','D'].forEach(g=>{
+  ['A','B','C','D']
+    .forEach(group=>{
 
-    const arr =
-      [...data[g]]
-      .sort()
-      .map(k=>{
+      const dates =
+        [...data[group]]
+          .sort()
+          .map(k=>{
 
-        const q = k.split('-');
+            const q =
+              k.split('-');
 
-        return `${Number(q[1])}/${Number(q[2])}`;
+            return (
+              Number(q[1]) +
+              '/' +
+              Number(q[2])
+            );
 
-      });
+          });
 
-    out.push(
-      g + (arr.length ? ',' + arr.join(',') : '')
-    );
+      output.push(
+        group +
+        (
+          dates.length
+          ? ',' + dates.join(',')
+          : ''
+        )
+      );
 
-  });
+    });
 
-  return out.join('\n') + '\n';
+  return output.join('\n') + '\n';
 
 }
+
+
+/* ==========================================
+   年月選單
+========================================== */
 
 function renderSelectors(){
 
@@ -825,97 +1261,178 @@ function renderSelectors(){
   month.innerHTML = '';
 
   for(
-    let y=today.getFullYear()-3;
-    y<=today.getFullYear()+5;
+    let y =
+      today.getFullYear()-3;
+
+    y <=
+      today.getFullYear()+5;
+
     y++
   ){
 
-    const o =
-      new Option(`${y} 年`,y);
+    const option =
+      new Option(
+        `${y} 年`,
+        y
+      );
 
-    if(y===view.getFullYear())
-      o.selected=true;
+    if(
+      y ===
+      view.getFullYear()
+    ){
 
-    year.add(o);
-
-  }
-
-  for(let m=0;m<12;m++){
-
-    const o =
-      new Option(`${m+1} 月`,m);
-
-    if(m===view.getMonth())
-      o.selected=true;
-
-    month.add(o);
-
-  }
-
-}
-
-function dayCell(dt,other){
-
-  const el =
-    document.createElement('div');
-
-  el.className =
-    'day' + (other ? ' other' : '');
-
-  const k =
-    key(
-      dt.getFullYear(),
-      dt.getMonth(),
-      dt.getDate()
-    );
-
-  if(
-    dt.getTime() === today.getTime()
-  ){
-
-    el.classList.add('today');
-
-  }
-
-  if(k===selected)
-    el.classList.add('selected');
-
-  el.innerHTML =
-    `<div class="num">${dt.getDate()}</div>
-     <div class="badges"></div>`;
-
-  const badges =
-    el.querySelector('.badges');
-
-  ['A','B','C','D'].forEach(g=>{
-
-    if(data[g].has(k)){
-
-      const b =
-        document.createElement('span');
-
-      b.className =
-        `badge ${g}`;
-
-      b.textContent = g;
-
-      badges.appendChild(b);
+      option.selected = true;
 
     }
 
-  });
+    year.add(option);
 
-  el.onclick = ()=>{
+  }
 
-    selected = k;
 
-    openEditor(k);
+  for(
+    let m=0;
+    m<12;
+    m++
+  ){
+
+    const option =
+      new Option(
+        `${m+1} 月`,
+        m
+      );
+
+    if(
+      m ===
+      view.getMonth()
+    ){
+
+      option.selected = true;
+
+    }
+
+    month.add(option);
+
+  }
+
+}
+
+
+/* ==========================================
+   日期格
+========================================== */
+
+function dayCell(
+  date,
+  otherMonth
+){
+
+  const element =
+    document.createElement('div');
+
+  element.className =
+    'day' +
+    (
+      otherMonth
+      ? ' other'
+      : ''
+    );
+
+  const dateKey =
+    key(
+      date.getFullYear(),
+      date.getMonth(),
+      date.getDate()
+    );
+
+
+  if(
+    date.getTime() ===
+    today.getTime()
+  ){
+
+    element.classList.add(
+      'today'
+    );
+
+  }
+
+
+  if(
+    dateKey === selected
+  ){
+
+    element.classList.add(
+      'selected'
+    );
+
+  }
+
+
+  element.innerHTML = `
+    <div class="num">
+      ${date.getDate()}
+    </div>
+
+    <div class="badges"></div>
+  `;
+
+
+  const badges =
+    element.querySelector(
+      '.badges'
+    );
+
+
+  ['A','B','C','D']
+    .forEach(group=>{
+
+      if(
+        data[group].has(
+          dateKey
+        )
+      ){
+
+        const badge =
+          document.createElement(
+            'span'
+          );
+
+        badge.className =
+          `badge ${group}`;
+
+        badge.textContent =
+          group;
+
+        badges.appendChild(
+          badge
+        );
+
+      }
+
+    });
+
+
+  element.onclick = ()=>{
+
+    selected =
+      dateKey;
+
+    openEditor(
+      dateKey
+    );
 
   };
 
-  return el;
+
+  return element;
 
 }
+
+
+/* ==========================================
+   Render
+========================================== */
 
 function render(){
 
@@ -930,46 +1447,98 @@ function render(){
     view.getMonth();
 
   const first =
-    new Date(y,m,1).getDay();
+    new Date(
+      y,
+      m,
+      1
+    ).getDay();
 
   const days =
-    new Date(y,m+1,0).getDate();
+    new Date(
+      y,
+      m+1,
+      0
+    ).getDate();
 
-  for(let i=0;i<first;i++){
 
-    const d =
-      new Date(y,m,i-first+1);
+  /*
+   * 上個月
+   */
+
+  for(
+    let i=0;
+    i<first;
+    i++
+  ){
+
+    const date =
+      new Date(
+        y,
+        m,
+        i-first+1
+      );
 
     grid.appendChild(
-      dayCell(d,true)
+      dayCell(
+        date,
+        true
+      )
     );
 
   }
 
-  for(let d=1;d<=days;d++){
+
+  /*
+   * 本月
+   */
+
+  for(
+    let d=1;
+    d<=days;
+    d++
+  ){
 
     grid.appendChild(
       dayCell(
-        new Date(y,m,d),
+        new Date(
+          y,
+          m,
+          d
+        ),
         false
       )
     );
 
   }
 
-  while(grid.children.length<42){
+
+  /*
+   * 補到 42 格
+   */
+
+  while(
+    grid.children.length < 42
+  ){
 
     const n =
-      grid.children.length-first-days+1;
+      grid.children.length -
+      first -
+      days +
+      1;
 
     grid.appendChild(
       dayCell(
-        new Date(y,m+1,n),
+        new Date(
+          y,
+          m+1,
+          n
+        ),
         true
       )
     );
 
   }
+
 
   monthTitle.textContent =
     `（${y} 年 ${m+1} 月）`;
@@ -977,6 +1546,11 @@ function render(){
   renderList();
 
 }
+
+
+/* ==========================================
+   列表
+========================================== */
 
 function renderList(){
 
@@ -988,95 +1562,127 @@ function renderList(){
 
   const rows = [];
 
-  ['A','B','C','D'].forEach(g=>{
 
-    [...data[g]].forEach(k=>{
+  ['A','B','C','D']
+    .forEach(group=>{
 
-      const q =
-        k.split('-');
+      [...data[group]]
+        .forEach(dateKey=>{
 
-      if(
-        Number(q[0])===y &&
-        Number(q[1])===m+1
-      ){
+          const q =
+            dateKey.split('-');
 
-        rows.push([
-          k,
-          g
-        ]);
+          if(
+            Number(q[0]) === y &&
+            Number(q[1]) === m+1
+          ){
 
-      }
+            rows.push([
+              dateKey,
+              group
+            ]);
+
+          }
+
+        });
 
     });
 
-  });
 
   rows.sort(
     (a,b)=>
       a[0].localeCompare(b[0])
   );
 
+
   list.innerHTML =
     rows.length
     ?
-    rows.map(r=>`
+    rows
+      .map(row=>`
 
-      <tr>
-        <td>${fmtKey(r[0])}</td>
-        <td>
-          <span class="badge ${r[1]}"
-                style="margin:0">
-            ${r[1]}
-          </span>
-        </td>
-      </tr>
+        <tr>
+          <td>
+            ${fmtKey(row[0])}
+          </td>
 
-    `).join('')
+          <td>
+            <span
+              class="badge ${row[1]}"
+              style="margin:0"
+            >
+              ${row[1]}
+            </span>
+          </td>
+        </tr>
+
+      `)
+      .join('')
+
     :
+
     `
       <tr>
-        <td>本月尚無排班</td>
+        <td>
+          本月尚無排班
+        </td>
       </tr>
     `;
 
-  ['A','B','C','D'].forEach(g=>{
 
-    document
-      .getElementById('count'+g)
-      .textContent =
-      [...data[g]]
-      .filter(
-        k=>k.startsWith(
-          `${y}-${String(m+1).padStart(2,'0')}-`
+  ['A','B','C','D']
+    .forEach(group=>{
+
+      const count =
+        [...data[group]]
+          .filter(
+            dateKey=>
+              dateKey.startsWith(
+                `${y}-${String(m+1).padStart(2,'0')}-`
+              )
+          )
+          .length;
+
+      document
+        .getElementById(
+          'count' + group
         )
-      )
-      .length;
+        .textContent =
+        count;
 
-  });
+    });
 
 }
 
-/*
- * 開啟日期編輯器
- */
 
-function openEditor(k){
+/* ==========================================
+   日期編輯器
+========================================== */
+
+function openEditor(
+  dateKey
+){
 
   modalTitle.textContent =
-    `${fmtKey(k)} 排班`;
+    `${fmtKey(dateKey)} 排班`;
+
 
   document
     .querySelectorAll('.shift')
     .forEach(label=>{
 
-      const g =
+      const group =
         label.dataset.shift;
 
       const checkbox =
-        label.querySelector('input');
+        label.querySelector(
+          'input'
+        );
 
       const checked =
-        data[g].has(k);
+        data[group].has(
+          dateKey
+        );
 
       checkbox.checked =
         checked;
@@ -1088,13 +1694,17 @@ function openEditor(k){
 
     });
 
-  modal.classList.add('show');
+
+  editModal.classList.add(
+    'show'
+  );
 
 }
 
-/*
- * checkbox 顏色
- */
+
+/* ==========================================
+   Checkbox 顏色
+========================================== */
 
 document
   .querySelectorAll('.shift input')
@@ -1105,7 +1715,9 @@ document
       ()=>{
 
         const label =
-          input.closest('.shift');
+          input.closest(
+            '.shift'
+          );
 
         label.classList.toggle(
           'checked',
@@ -1117,153 +1729,421 @@ document
 
   });
 
-/*
- * 清除當天全部班別
- */
 
-document
-  .getElementById('clearDay')
-  .onclick = ()=>{
+/* ==========================================
+   關閉編輯
+========================================== */
 
-    if(!selected) return;
+function closeEditor(){
 
-    ['A','B','C','D']
-      .forEach(g=>{
-        data[g].delete(selected);
-      });
-
-    closeModal();
-
-    render();
-
-  };
-
-/*
- * 關閉
- */
-
-function closeModal(){
-
-  modal.classList.remove('show');
+  editModal.classList.remove(
+    'show'
+  );
 
 }
 
-/*
- * 儲存
- */
+document
+  .getElementById('cancelEdit')
+  .onclick =
+  closeEditor;
 
-saveButton.onclick = async ()=>{
 
-  if(!selected) return;
+/* ==========================================
+   清除當天全部
+========================================== */
 
-  const changes = {};
+document
+  .getElementById('clearDay')
+  .onclick = async ()=>{
 
-  document
-    .querySelectorAll('.shift input')
-    .forEach(input=>{
+    if(!selected) return;
 
-      changes[input.value] =
-        input.checked;
+    document
+      .querySelectorAll(
+        '.shift input'
+      )
+      .forEach(
+        input=>{
+          input.checked=false;
 
-    });
-
-  /*
-   * 先更新畫面資料
-   */
-
-  ['A','B','C','D']
-    .forEach(g=>{
-
-      if(changes[g])
-        data[g].add(selected);
-      else
-        data[g].delete(selected);
-
-    });
-
-  closeModal();
-
-  render();
-
-  /*
-   * 尚未設定 API 時，
-   * 先提醒使用者。
-   */
-
-  if(!SAVE_API){
-
-    status.textContent =
-      '已修改本頁資料；GitHub API 尚未設定，因此尚未寫入 schedule.txt。';
-
-    return;
-
-  }
-
-  try{
-
-    saveButton.disabled=true;
-
-    status.textContent =
-      '正在更新 GitHub schedule.txt…';
-
-    const response =
-      await fetch(
-        SAVE_API,
-        {
-          method:'POST',
-          headers:{
-            'Content-Type':'application/json'
-          },
-          body:JSON.stringify({
-            date:selected,
-            schedule:serialize()
-          })
+          input
+            .closest('.shift')
+            .classList.remove(
+              'checked'
+            );
         }
       );
 
-    if(!response.ok)
-      throw new Error(
-        await response.text()
+  };
+
+
+/* ==========================================
+   GitHub API
+========================================== */
+
+async function getGitHubFile(){
+
+  const token =
+    getToken();
+
+  if(!token){
+
+    throw new Error(
+      'NO_TOKEN'
+    );
+
+  }
+
+
+  const response =
+    await fetch(
+      `${API}?ref=${BRANCH}&t=${Date.now()}`,
+      {
+        headers:{
+          'Accept':
+            'application/vnd.github+json',
+
+          'Authorization':
+            `Bearer ${token}`,
+
+          'X-GitHub-Api-Version':
+            '2022-11-28'
+        }
+      }
+    );
+
+
+  if(!response.ok){
+
+    const text =
+      await response.text();
+
+    throw new Error(
+      `GitHub GET ${response.status}: ${text}`
+    );
+
+  }
+
+
+  return response.json();
+
+}
+
+
+/* ==========================================
+   寫入 GitHub schedule.txt
+========================================== */
+
+async function updateGitHub(
+  content
+){
+
+  const token =
+    getToken();
+
+  if(!token){
+
+    throw new Error(
+      'NO_TOKEN'
+    );
+
+  }
+
+
+  /*
+   * 先取得目前 GitHub 檔案 SHA
+   *
+   * 這樣可以避免用錯 SHA。
+   */
+
+  const file =
+    await getGitHubFile();
+
+
+  const encoded =
+    new TextEncoder()
+      .encode(content);
+
+
+  /*
+   * Uint8Array → Base64
+   */
+
+  let binary = '';
+
+  const chunkSize = 0x8000;
+
+  for(
+    let i=0;
+    i<encoded.length;
+    i+=chunkSize
+  ){
+
+    binary += String.fromCharCode(
+      ...encoded.subarray(
+        i,
+        i+chunkSize
+      )
+    );
+
+  }
+
+  const base64 =
+    btoa(binary);
+
+
+  const response =
+    await fetch(
+      API,
+      {
+        method:'PUT',
+
+        headers:{
+          'Accept':
+            'application/vnd.github+json',
+
+          'Authorization':
+            `Bearer ${token}`,
+
+          'X-GitHub-Api-Version':
+            '2022-11-28',
+
+          'Content-Type':
+            'application/json'
+        },
+
+        body:JSON.stringify({
+
+          message:
+            `Update schedule.txt (${selected})`,
+
+          content:
+            base64,
+
+          sha:
+            file.sha,
+
+          branch:
+            BRANCH
+
+        })
+
+      }
+    );
+
+
+  if(!response.ok){
+
+    const text =
+      await response.text();
+
+    throw new Error(
+      `GitHub PUT ${response.status}: ${text}`
+    );
+
+  }
+
+
+  return response.json();
+
+}
+
+
+/* ==========================================
+   儲存
+========================================== */
+
+saveButton.onclick =
+  async ()=>{
+
+    if(!selected) return;
+
+
+    const token =
+      getToken();
+
+
+    if(!token){
+
+      closeEditor();
+
+      tokenModal.classList.add(
+        'show'
       );
 
-    status.textContent =
-      `✅ ${fmtKey(selected)} 已成功更新 GitHub schedule.txt`;
+      tokenInput.focus();
 
-  }
-  catch(error){
+      alert(
+        '請先設定 GitHub Token。'
+      );
 
-    console.error(error);
+      return;
 
-    status.textContent =
-      '❌ GitHub 更新失敗，請檢查 API 設定。';
+    }
 
-  }
-  finally{
 
-    saveButton.disabled=false;
+    /*
+     * 先把 checkbox 套用到資料
+     */
 
-  }
+    const changes = {};
 
-};
 
-/*
- * 點背景關閉
- */
+    document
+      .querySelectorAll(
+        '.shift input'
+      )
+      .forEach(input=>{
 
-modal.onclick = e=>{
+        changes[input.value] =
+          input.checked;
 
-  if(e.target===modal)
-    closeModal();
+      });
 
-};
 
-document
-  .getElementById('cancel')
-  .onclick = closeModal;
+    ['A','B','C','D']
+      .forEach(group=>{
 
-/*
- * 月份
- */
+        if(
+          changes[group]
+        ){
+
+          data[group].add(
+            selected
+          );
+
+        }
+        else{
+
+          data[group].delete(
+            selected
+          );
+
+        }
+
+      });
+
+
+    const content =
+      serialize();
+
+
+    /*
+     * 防止重複點擊
+     */
+
+    saveButton.disabled =
+      true;
+
+    editModal.classList.add(
+      'loading'
+    );
+
+
+    setStatus(
+      `正在把 ${fmtKey(selected)} 更新到 GitHub…`
+    );
+
+
+    try{
+
+      await updateGitHub(
+        content
+      );
+
+
+      closeEditor();
+
+      render();
+
+
+      setStatus(
+        `✅ ${fmtKey(selected)} 已成功更新 GitHub schedule.txt`,
+        'success'
+      );
+
+    }
+    catch(error){
+
+      console.error(
+        error
+      );
+
+
+      if(
+        error.message ===
+        'NO_TOKEN'
+      ){
+
+        setStatus(
+          '❌ 沒有 GitHub Token，請重新設定。',
+          'error'
+        );
+
+      }
+      else{
+
+        setStatus(
+          `❌ GitHub 更新失敗：${error.message}`,
+          'error'
+        );
+
+      }
+
+    }
+    finally{
+
+      saveButton.disabled =
+        false;
+
+      editModal.classList.remove(
+        'loading'
+      );
+
+    }
+
+  };
+
+
+/* ==========================================
+   Modal 點背景關閉
+========================================== */
+
+editModal.onclick =
+  event=>{
+
+    if(
+      event.target ===
+      editModal
+    ){
+
+      closeEditor();
+
+    }
+
+  };
+
+
+tokenModal.onclick =
+  event=>{
+
+    if(
+      event.target ===
+      tokenModal
+    ){
+
+      tokenModal.classList.remove(
+        'show'
+      );
+
+    }
+
+  };
+
+
+/* ==========================================
+   上 / 下一個月
+========================================== */
 
 document
   .getElementById('prev')
@@ -1277,6 +2157,7 @@ document
 
   };
 
+
 document
   .getElementById('next')
   .onclick = ()=>{
@@ -1288,6 +2169,11 @@ document
     render();
 
   };
+
+
+/* ==========================================
+   今天
+========================================== */
 
 document
   .getElementById('today')
@@ -1309,33 +2195,44 @@ document
 
     render();
 
-    openEditor(selected);
+    openEditor(
+      selected
+    );
 
   };
 
-year.onchange = ()=>{
 
-  view.setFullYear(
-    Number(year.value)
-  );
+/* ==========================================
+   年月
+========================================== */
 
-  render();
+year.onchange =
+  ()=>{
 
-};
+    view.setFullYear(
+      Number(year.value)
+    );
 
-month.onchange = ()=>{
+    render();
 
-  view.setMonth(
-    Number(month.value)
-  );
+  };
 
-  render();
 
-};
+month.onchange =
+  ()=>{
 
-/*
- * 下載
- */
+    view.setMonth(
+      Number(month.value)
+    );
+
+    render();
+
+  };
+
+
+/* ==========================================
+   下載
+========================================== */
 
 document
   .getElementById('download')
@@ -1345,32 +2242,41 @@ document
       new Blob(
         [serialize()],
         {
-          type:'text/plain;charset=utf-8'
+          type:
+            'text/plain;charset=utf-8'
         }
       );
 
     const a =
-      document.createElement('a');
+      document.createElement(
+        'a'
+      );
 
     a.href =
-      URL.createObjectURL(blob);
+      URL.createObjectURL(
+        blob
+      );
 
     a.download =
       'schedule.txt';
 
     a.click();
 
-    URL.revokeObjectURL(a.href);
+    URL.revokeObjectURL(
+      a.href
+    );
 
   };
 
-/*
- * 複製
- */
+
+/* ==========================================
+   複製
+========================================== */
 
 document
   .getElementById('copy')
-  .onclick = async ()=>{
+  .onclick =
+  async ()=>{
 
     await navigator
       .clipboard
@@ -1384,36 +2290,62 @@ document
 
   };
 
-/*
- * 讀取 GitHub
- */
+
+/* ==========================================
+   從 GitHub 讀取
+========================================== */
 
 async function load(){
 
   try{
 
-    const r =
+    const response =
       await fetch(
-        RAW + '?t=' + Date.now()
+        RAW +
+        '?t=' +
+        Date.now()
       );
 
-    if(!r.ok)
-      throw Error(r.status);
+
+    if(!response.ok){
+
+      throw new Error(
+        response.status
+      );
+
+    }
+
+
+    const text =
+      await response.text();
+
 
     parseSchedule(
-      await r.text()
+      text
     );
 
-    status.textContent =
-      '✅ 已讀取 GitHub schedule.txt';
+
+    setStatus(
+      '✅ 已讀取 GitHub schedule.txt',
+      'success'
+    );
+
 
     render();
 
   }
-  catch(e){
+  catch(error){
 
-    status.textContent =
-      '⚠️ 無法讀取 GitHub schedule.txt，仍可編輯目前資料。';
+    console.error(
+      error
+    );
+
+
+    setStatus(
+      '⚠️ 無法讀取 GitHub schedule.txt，仍可編輯目前畫面。',
+      'error'
+    );
+
 
     render();
 
@@ -1421,7 +2353,13 @@ async function load(){
 
 }
 
+
+/* ==========================================
+   啟動
+========================================== */
+
 render();
+
 load();
 
 </script>
